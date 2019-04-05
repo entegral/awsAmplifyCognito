@@ -1,52 +1,46 @@
 import React from 'react';
-import {Modal} from 'react-materialize';
 
-export default function Login({ displayConfirmationModal, handleLogin, handleEmailChange, handlePasswordChange, handlePasswordConfirmationChange}) {
+export default function Login({ handleLogin, handleOnChange, errorMessage}) {
 
   const loginFormStyle = {
-
+    textAlign: 'center'
   };
 
   const loginDivStyle = {
     marginTop: '40px',
     marginBottom: '40px',
-    marginLeft: '45%',
-    marginRight: '45%',
-    width: '10%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '20%',
     border: '1px solid grey',
     padding: '16px',
-    display: 'flex',
-    flexWrap: 'no-wrap',
     justifyContent: 'center'
   };
 
-  const inputStyle = {
-    display: 'block'
-  }
-
-  function handleSubmit(event){
-    event.preventDefault();
-    handleLogin();
+  const loginHeaderStyle = {
+    textAlign: 'center'
   };
-  
 
-  if (displayConfirmationModal){
-    return (
-      <Modal />
-    )
-  } else {
-    return (
-      <div style = {loginDivStyle}>
-        <form style={loginFormStyle}>
-          <label htmlFor="emaill">Email</label>
-          <input style={inputStyle} type="text" name="email" id="email" onChange={handleEmailChange}/>
-          <label htmlFor="passwordd">Password</label>
-          <input style={inputStyle} type="password" name="password" id="password" onChange={handlePasswordChange}/>
-          <label htmlFor="confirm_passwordd">Confirm Password</label>
-          <input style={inputStyle} type="password" name="confirm_password" id="confirm_password" onChange={handlePasswordConfirmationChange}/>
-          <button type='submit' onClick={handleSubmit}>Submit</button>
-        </form>
-      </div>
-    )
-  }
+  const inputStyle = {
+    display: 'block',
+    margin: '0 auto'
+  };
+
+  const errorStyle = {
+    color: 'red',
+    display: 'block'
+  };
+
+  return (
+    <div style = {loginDivStyle}>
+      <h4 style={loginHeaderStyle}>Login</h4>
+      <form style={loginFormStyle}>
+        <input style={inputStyle} placeholder='Email' type="text" name="email" id="email" onChange={handleOnChange}/>
+        <input style={inputStyle} placeholder='Password' type="password" name="password" id="password" onChange={handleOnChange}/>
+        <button type='submit' onClick={handleLogin}>Login</button>
+      </form>
+      <p style = {errorStyle}>{errorMessage}</p>
+    </div>
+  )
+
 }
