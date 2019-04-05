@@ -45,6 +45,7 @@ import { Auth } from 'aws-amplify';
 
   onLogin = (e) => {
     e.preventDefault();
+    this.setState( {isLoading: true} )
     console.log('login email', this.state.email);
     console.log('login password', this.state.password);
     console.log('login confirm password', this.state.confirm_password);
@@ -52,20 +53,20 @@ import { Auth } from 'aws-amplify';
     Auth.signIn(this.state.email, this.state.password)
       .then((user) => {
         console.log(user);
-        this.setState( { errorMessage: ''} )
+        this.setState( { errorMessage: '', loggedIn: true, password: '', isLoading: false} )
       })
       .catch((err) => {
         console.log(err)
         this.setState( { errorMessage: 'Username and/or Password Incorrect'} )
       });
-  }
+  };
 
   onSignUp = async (e) => {
     e.preventDefault();
 
     if (this.state.password !== this.state.confirm_password){
       return this.setState({ errorMessage: 'passwords do not match' })
-    }
+    };
 
     const { password, email} = this.state;
     const username = email;
@@ -75,7 +76,7 @@ import { Auth } from 'aws-amplify';
       console.log('signup successful');
     } catch (err) {
       console.log('error signing up: ', err)
-    }
+    };
   }
 
   onConfirmSignup = async (e) => {
@@ -87,7 +88,13 @@ import { Auth } from 'aws-amplify';
       console.log('email confirmation successful')
     } catch (err) {
       console.log('error confirming signup: ', err)
-    }
+    };
+  };
+
+  signOut = () => {
+    Auth.signOut()
+    .then(data => this.setState({loggedIn: false}))
+    .catch(err => console.log(err));
   }
   
   render() {
@@ -102,7 +109,7 @@ import { Auth } from 'aws-amplify';
       return (
         <React.Fragment>
           {
-            this.state.loggedIn ? ( <Header username = {this.state.email} /> ) : null
+            this.state.loggedIn ? ( <Header username = {this.state.email} handleSignOut = {this.signOut} /> ) : null
           }
           <Login 
             handleLogin = {this.onLogin}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Header({ username }) {
+export default function Header({ username, handleSignOut }) {
 
   const buttonStyle = {
     marginLeft: '16px'
@@ -8,7 +8,7 @@ export default function Header({ username }) {
   return (
     <div>
       {username}
-      <button style = {buttonStyle}>Logout</button>
+      <button style = {buttonStyle} onClick={handleSignOut}>Logout</button>
     </div>
   )
 }
